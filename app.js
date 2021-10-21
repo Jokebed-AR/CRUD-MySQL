@@ -228,7 +228,7 @@ app.put('/teachers/modify', (req, res) => {
             connection.release() //return the connection to pool
 
             if(!err) {
-                res.send(`Alumno: ${nombres} modificado.`)
+                res.send(`Profesor: ${nombres} modificado.`)
             } else {
                 console.log(err)
             }
