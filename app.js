@@ -2,8 +2,14 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mysql = require('mysql')
+const cors = require('cors')
 
 const app = express()
+
+//setting up the cors config
+app.use(cors({
+    origin: 'https://crud-mysql2021.herokuapp.com/'
+}))
 
 const port = process.env.PORT || 5000
 
@@ -14,10 +20,10 @@ app.use(bodyParser.json())
 //  MySQL
 const pool = mysql.createPool({
     connectionLimit : 10,
-    host            : 'localhost',
-    user            : 'root',
-    password        : '',
-    database        : 'school_db'
+    host            : 'slashwebmariadb.cyuazzw9rdsu.us-east-1.rds.amazonaws.com',
+    user            : 'nodemysql',
+    password        : 'nodemysql',
+    database        : 'nodemysql'
 });
 
 
