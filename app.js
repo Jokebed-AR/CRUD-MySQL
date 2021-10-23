@@ -8,7 +8,7 @@ const app = express()
 
 //setting up the cors config
 app.use(cors({
-    origin: 'https://crud-mysql2021.herokuapp.com/'
+    origin: 'https://crud-mysql2021.herokuapp.com'
 }))
 
 const port = process.env.PORT || 5000
@@ -26,18 +26,19 @@ const pool = mysql.createPool({
     database        : 'nodemysql'
 });
 
+// Get
 app.get('/', (req, res) => {
-    res.send("WELCOME")
+    res.send("WELCOME :)")
 })
 
-// Get "alumnos"
+// Get "students"
 app.get('/students', (req, res) => {
 
     pool.getConnection((err, connection) => {
         if(err) throw err
         console.log(`connected as id ${connection.threadId}`)
 
-        connection.query('SELECT * from alumnos', (err, rows) => {
+        connection.query('SELECT * from students', (err, rows) => {
             connection.release() //return the connection to pool
 
             if(!err) {
@@ -50,14 +51,14 @@ app.get('/students', (req, res) => {
 })
 
 
-// Get "alumnos" by id
+// Get "students" by id
 app.get('/students/:id', (req, res) => {
 
     pool.getConnection((err, connection) => {
         if(err) throw err
         console.log(`connected as id ${connection.threadId}`)
 
-        connection.query('SELECT * from alumnos WHERE id = ?', [req.params.id], (err, rows) => {
+        connection.query('SELECT * from students WHERE id = ?', [req.params.id], (err, rows) => {
             connection.release() //return the connection to pool
 
             if(!err) {
@@ -77,11 +78,11 @@ app.delete('/students/del/:id', (req, res) => {
         if(err) throw err
         console.log(`connected as id ${connection.threadId}`)
 
-        connection.query('DELETE from alumnos WHERE id = ?', [req.params.id], (err, rows) => {
+        connection.query('DELETE from students WHERE id = ?', [req.params.id], (err, rows) => {
             connection.release() //return the connection to pool
 
             if(!err) {
-                res.send(`Alumno con ID: ${[req.params.id]} ha sido eliminado.`)
+                res.send(`Student with ID: ${[req.params.id]} has been removed.`)
             } else {
                 console.log(err)
             }
@@ -99,11 +100,11 @@ app.post('/students/add', (req, res) => {
 
         const params = req.body
 
-        connection.query('INSERT INTO  alumnos SET ?', params, (err, rows) => {
+        connection.query('INSERT INTO  students SET ?', params, (err, rows) => {
             connection.release() //return the connection to pool
 
             if(!err) {
-                res.send(`Nuevo alumno añadido.`)
+                res.send(`New student added.`)
             } else {
                 console.log(err)
             }
@@ -121,13 +122,13 @@ app.put('/students/modify', (req, res) => {
         if(err) throw err
         console.log(`connected as id ${connection.threadId}`)
 
-        const {id, nombres, apellido_1, apellido_2, fecha_nacimiento, direccion, numero_telefonico, nombre_madre, nombre_padre, tipo_de_sangre} = req.body
+        const {id, names} = req.body
 
-        connection.query('UPDATE alumnos SET nombres = ? WHERE id = ?', [nombres, id], (err, rows) => {
+        connection.query('UPDATE students SET names = ? WHERE id = ?', [names, id], (err, rows) => {
             connection.release() //return the connection to pool
 
             if(!err) {
-                res.send(`Alumno: ${nombres} modificado.`)
+                res.send(`Modified student: ${names}.`)
             } else {
                 console.log(err)
             }
@@ -140,14 +141,14 @@ app.put('/students/modify', (req, res) => {
 
 
 
-// Get "profesores"
+// Get "teachers"
 app.get('/teachers', (req, res) => {
 
     pool.getConnection((err, connection) => {
         if(err) throw err
         console.log(`connected as id ${connection.threadId}`)
 
-        connection.query('SELECT * from profesores', (err, rows) => {
+        connection.query('SELECT * from teachers', (err, rows) => {
             connection.release() //return the connection to pool
 
             if(!err) {
@@ -160,14 +161,14 @@ app.get('/teachers', (req, res) => {
 })
 
 
-// Get "profesores" by id
+// Get "teachers" by id
 app.get('/teachers/:id', (req, res) => {
 
     pool.getConnection((err, connection) => {
         if(err) throw err
         console.log(`connected as id ${connection.threadId}`)
 
-        connection.query('SELECT * from profesores WHERE id = ?', [req.params.id], (err, rows) => {
+        connection.query('SELECT * from teachers WHERE id = ?', [req.params.id], (err, rows) => {
             connection.release() //return the connection to pool
 
             if(!err) {
@@ -187,11 +188,11 @@ app.delete('/teachers/del/:id', (req, res) => {
         if(err) throw err
         console.log(`connected as id ${connection.threadId}`)
 
-        connection.query('DELETE from profesores WHERE id = ?', [req.params.id], (err, rows) => {
+        connection.query('DELETE from teachers WHERE id = ?', [req.params.id], (err, rows) => {
             connection.release() //return the connection to pool
 
             if(!err) {
-                res.send(`Profesor con ID: ${[req.params.id]} ha sido eliminado.`)
+                res.send(`Teacher with ID: ${[req.params.id]} has been removed.`)
             } else {
                 console.log(err)
             }
@@ -209,11 +210,11 @@ app.post('/teachers/add', (req, res) => {
 
         const params = req.body
 
-        connection.query('INSERT INTO  profesores SET ?', params, (err, rows) => {
+        connection.query('INSERT INTO  teachers SET ?', params, (err, rows) => {
             connection.release() //return the connection to pool
 
             if(!err) {
-                res.send(`Nuevo profesor añadido.`)
+                res.send(`New teacher added.`)
             } else {
                 console.log(err)
             }
@@ -231,13 +232,13 @@ app.put('/teachers/modify', (req, res) => {
         if(err) throw err
         console.log(`connected as id ${connection.threadId}`)
 
-        const {id, nombres, apellido_1, apellido_2, fecha_nacimiento, direccion, correo_electronico, profesion, idiomas, turno} = req.body
+        const {id, names} = req.body
 
-        connection.query('UPDATE profesores SET nombres = ? WHERE id = ?', [nombres, id], (err, rows) => {
+        connection.query('UPDATE teachers SET names = ? WHERE id = ?', [names, id], (err, rows) => {
             connection.release() //return the connection to pool
 
             if(!err) {
-                res.send(`Profesor: ${nombres} modificado.`)
+                res.send(`Modified teacher: ${names}.`)
             } else {
                 console.log(err)
             }
