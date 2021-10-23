@@ -26,6 +26,9 @@ const pool = mysql.createPool({
     database        : 'nodemysql'
 });
 
+app.get('/', (req, res) => {
+    res.send("WELCOME")
+})
 
 // Get "alumnos"
 app.get('/students', (req, res) => {
